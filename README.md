@@ -12,7 +12,7 @@ It is a manifest-only language pack: two YAML files and a `plugin.yaml`. The Her
 
 ## Requirements
 
-- Hermes Agent 0.22 or later, for both the backend and the Desktop app. Language packs (`provides_locales`) arrived in hermes-agent #126296; older versions skip the pack.
+- Hermes Agent 0.21.6 or later, for both the backend and the Desktop app. Language packs (`provides_locales`) arrived in hermes-agent #126296; older versions skip the pack.
 
 ## Install
 

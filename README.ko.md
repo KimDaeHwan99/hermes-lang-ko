@@ -12,7 +12,7 @@ Hermes 에는 이미 CLI·메시징 게이트웨이(`locales/ko.yaml`)와 TUI(`k
 
 ## 요구 사항
 
-- 백엔드와 Desktop 앱 모두 Hermes Agent 0.22 이상. 언어팩 기능(`provides_locales`)은 hermes-agent #126296 에서 들어왔고, 이전 버전은 이 팩을 건너뜁니다.
+- 백엔드와 Desktop 앱 모두 Hermes Agent 0.21.6 이상. 언어팩 기능(`provides_locales`)은 hermes-agent #126296 에서 들어왔고, 이전 버전은 이 팩을 건너뜁니다.
 
 ## 설치
 

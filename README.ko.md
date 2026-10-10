@@ -45,9 +45,9 @@ hermes config get display.language   # ko
 | --- | --- | --- |
 | CLI·게이트웨이 응답·승인 프롬프트 | 내장 `locales/ko.yaml` | hermes-agent 에서 관리 |
 | TUI | 내장 `locales/ko.tui.yaml` | hermes-agent 에서 관리 |
-| Desktop | 이 팩 `locales/ko.desktop.yaml` | 4,987개 키 중 3,929개(79%) |
+| Desktop | 이 팩 `locales/ko.desktop.yaml` | 5,038개 키 중 4,910개(97%) |
 
-영어와 같은 값은 일부러 넣지 않았습니다. 번역되지 않은 문구가 낡은 사본에 묶이지 않고 영어 카탈로그로 자연스럽게 넘어가게 하려는 것입니다. 영어 값이 함수인 Desktop 문구는 언어팩 규약대로 위치 자리표시자 문자열(`"{0}분 전"`)로 적습니다.
+남은 128개 중 54개는 인자에 따라 문장이 갈리는 문구(켜짐/꺼짐, 표시/숨기기)라 위치 자리표시자 형식으로 정확히 옮길 수 없어 영어로 둡니다. 나머지는 그대로 두는 브랜드명·식별자·기호입니다. 영어와 같은 값은 일부러 넣지 않았습니다. 번역되지 않은 문구가 낡은 사본에 묶이지 않고 영어 카탈로그로 자연스럽게 넘어가게 하려는 것입니다. 영어 값이 함수인 Desktop 문구는 언어팩 규약대로 위치 자리표시자 문자열(`"{0}분 전"`)로 적습니다.
 
 `locales/ko.yaml` 은 일부러 비워 두었습니다. 내장 카탈로그가 이미 채우고 있고, 검증기가 파일의 존재만 요구합니다.
 
@@ -57,23 +57,23 @@ hermes config get display.language   # ko
 - 팩을 등록해도 `display.language` 는 바뀌지 않습니다. `hermes config set display.language ko` 로 직접 켭니다.
 - 설치 스캐너가 `sudo` 비밀번호를 언급하거나 공식 한 줄 설치 명령을 보여 주는 화면 문구 몇 개를 `caution` 으로 표시합니다. 실행되는 내용이 아니라 영어 원문과 같은 뜻의 화면 문구입니다.
 
-## 카탈로그 다시 만들기
+## 새 Hermes 버전에 맞추기
+
+`locales/ko.desktop.yaml` 이 원본이고 직접 고칩니다. Desktop 키가 바뀌면 대상 버전의 키 목록에 맞춥니다.
 
 ```bash
-node tools/convert.mjs \
-  --src <src/i18n/ko.ts 가 있는 hermes-agent 체크아웃> \
-  --keys <대상 hermes-agent>/locales/_keys.desktop.json \
-  --esbuild-root <node_modules 가 있는 hermes-agent 체크아웃>
+node tools/sync-keys.mjs --keys <hermes-agent>/locales/_keys.desktop.json --missing missing.txt   # 보고만
+node tools/sync-keys.mjs --keys <hermes-agent>/locales/_keys.desktop.json --fix                   # 사라진 키 제거
 hermes plugins validate .
 ```
 
-## hermes-agent #40716 과의 관계
+`missing.txt` 에 아직 번역이 없는 키가 나옵니다. 직접 번역해 넣습니다.
 
-번역은 [@dalgme](https://github.com/dalgme) 와 기여자들이 [NousResearch/hermes-agent#40716](https://github.com/NousResearch/hermes-agent/pull/40716) 에서 제안한 Desktop 한국어에서 왔습니다. 이 팩은 그 작업을 언어팩 방식으로 쓸 수 있게 한 것이고, PR 을 대신하지 않습니다. Desktop 에 한국어가 내장되면 아직 빠진 문구만 남기거나 팩을 정리합니다.
+## 번역과 출처
 
-## 출처
+한국어 문구는 단테랩스가 영어 Desktop 카탈로그만 보고 AI 도움을 받아 독립적으로 번역했습니다. 어색한 번역은 이슈나 PR 로 알려 주세요.
 
-Desktop 한국어 문구: @dalgme 와 hermes-agent #40716 기여자, MIT 라이선스. [NOTICE](./NOTICE) 참조.
+0.1.1 까지의 릴리스는 [@dalgme](https://github.com/dalgme) 와 기여자들이 [NousResearch/hermes-agent#40716](https://github.com/NousResearch/hermes-agent/pull/40716) 에서 제안한 Desktop 한국어로 만들었고, 그 출처 표기를 유지합니다. 0.2.0 부터는 그 문구를 하나도 쓰지 않습니다. 이 팩은 #40716 을 대신하지 않습니다. Desktop 에 한국어가 내장되면 빠진 문구만 남기거나 팩을 정리합니다. [NOTICE](./NOTICE) 참조.
 
 ## 라이선스
 

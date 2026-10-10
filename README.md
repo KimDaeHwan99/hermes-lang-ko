@@ -45,9 +45,9 @@ hermes config get display.language   # ko
 | --- | --- | --- |
 | CLI, gateway replies, approval prompts | bundled `locales/ko.yaml` | maintained in hermes-agent |
 | TUI | bundled `locales/ko.tui.yaml` | maintained in hermes-agent |
-| Desktop | this pack, `locales/ko.desktop.yaml` | 3,929 of 4,987 keys (79%) |
+| Desktop | this pack, `locales/ko.desktop.yaml` | 4,910 of 5,038 keys (97%) |
 
-Values identical to English are deliberately left out, so untranslated strings fall back to the English catalog instead of being pinned to a stale copy. Desktop entries whose English value is a function are written as positional strings (`"{0}분 전"`), as the pack format requires.
+Of the remaining 128 keys, 54 are entries whose English text branches on an argument (on/off, show/hide), which the positional pack format cannot express faithfully; the rest are brand names, identifiers and symbols that stay as they are. Values identical to English are deliberately left out, so untranslated strings fall back to the English catalog instead of being pinned to a stale copy. Desktop entries whose English value is a function are written as positional strings (`"{0}분 전"`), as the pack format requires.
 
 `locales/ko.yaml` is intentionally empty: the bundled core catalog already covers it, and the validator requires the file to exist.
 
@@ -57,25 +57,23 @@ Values identical to English are deliberately left out, so untranslated strings f
 - Registering the pack never changes `display.language`. You opt in with `hermes config set display.language ko`.
 - The install scanner reports `caution` findings for a few UI strings that mention `sudo` passwords or show the official one-line installer command. They are display text copied from the English catalog's meaning, not executable content.
 
-## Rebuilding the catalog
+## Updating to a new Hermes version
 
-`tools/convert.mjs` regenerates `locales/ko.desktop.yaml` from a hermes-agent checkout that contains the Korean Desktop catalog, filtered to the key set of the Hermes version you target:
+`locales/ko.desktop.yaml` is the source of truth and is edited directly. When Desktop keys change, align the pack with the target version's key set:
 
 ```bash
-node tools/convert.mjs \
-  --src <hermes-agent checkout with src/i18n/ko.ts> \
-  --keys <target hermes-agent>/locales/_keys.desktop.json \
-  --esbuild-root <hermes-agent checkout with node_modules>
+node tools/sync-keys.mjs --keys <hermes-agent>/locales/_keys.desktop.json --missing missing.txt   # report
+node tools/sync-keys.mjs --keys <hermes-agent>/locales/_keys.desktop.json --fix                   # drop stale keys
 hermes plugins validate .
 ```
 
-## Relationship to hermes-agent #40716
+`missing.txt` lists keys still waiting for a translation; add them by hand.
 
-The translations come from the Korean Desktop locale proposed in [NousResearch/hermes-agent#40716](https://github.com/NousResearch/hermes-agent/pull/40716) by [@dalgme](https://github.com/dalgme) and contributors. This pack makes that work usable through the language-pack mechanism; it is not a replacement for the PR. Once Korean ships inside Desktop, this pack will carry only the strings that are still missing, or be retired.
+## Translation and attribution
 
-## Attribution
+The Korean strings are an independent translation by Dante Labs, prepared with AI assistance from the English Desktop catalog only. Corrections from Korean users are welcome as issues or pull requests.
 
-Korean Desktop strings: @dalgme and the contributors of hermes-agent #40716, MIT licensed. See [NOTICE](./NOTICE).
+Releases up to 0.1.1 were generated from the Korean Desktop locale in [NousResearch/hermes-agent#40716](https://github.com/NousResearch/hermes-agent/pull/40716) by [@dalgme](https://github.com/dalgme) and contributors, and keep that attribution. Since 0.2.0 the pack contains none of those strings. This pack does not replace #40716: once Korean ships inside Desktop, the pack will carry only what is still missing, or be retired. See [NOTICE](./NOTICE).
 
 ## License
 

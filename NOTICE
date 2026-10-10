@@ -1,0 +1,9 @@
+hermes-lang-ko
+
+The Korean Desktop strings in locales/ko.desktop.yaml are derived from the Korean
+Desktop catalog proposed in NousResearch/hermes-agent pull request #40716,
+"feat(desktop): add Korean locale and preserve profile language across restarts",
+by @dalgme and contributors. hermes-agent is distributed under the MIT License.
+
+Source revision used for this release: see "source" in the header of
+locales/ko.desktop.yaml.

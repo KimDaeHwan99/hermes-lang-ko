@@ -8,7 +8,7 @@ English: [README.md](./README.md)
 
 Hermes 에는 이미 CLI·메시징 게이트웨이(`locales/ko.yaml`)와 TUI(`ko.tui.yaml`) 한국어가 들어 있습니다. 한국어가 없는 곳은 Desktop 앱 하나입니다. 이 팩은 그 빈자리만 `locales/ko.desktop.yaml` 로 채우고, 나머지는 Hermes 에 내장된 한국어에 맡깁니다.
 
-코드 없이 YAML 파일 두 개와 `plugin.yaml` 로만 이뤄진 언어팩입니다. Hermes 백엔드가 `i18n.catalog` 로 Desktop 에 문구를 넘겨 주고, Desktop 은 이를 내장 영어 문구 위에 덮어씁니다. 팩에 없는 문구는 영어로 남습니다.
+텍스트만 담은 언어팩입니다. YAML 파일 두 개와 `plugin.yaml`, 그리고 아무 일도 하지 않는 `register()` 만 든 `__init__.py` 로 이뤄져 있습니다(아래 참고). Hermes 백엔드가 `i18n.catalog` 로 Desktop 에 문구를 넘겨 주고, Desktop 은 이를 내장 영어 문구 위에 덮어씁니다. 팩에 없는 문구는 영어로 남습니다.
 
 ## 요구 사항
 
@@ -16,7 +16,11 @@ Hermes 에는 이미 CLI·메시징 게이트웨이(`locales/ko.yaml`)와 TUI(`k
 
 ## 설치
 
-### 방법 A — `hermes plugins install`
+### 방법 A — Hermes Desktop
+
+Capabilities → Plugins → **Git에서 설치**(Install from Git)에 `https://github.com/dandacompany/hermes-lang-ko` 를 넣고 **Review repository** → **Install** 을 누릅니다. 그다음 언어를 한국어로 바꾸고(방법 B 의 마지막 줄 또는 Desktop 언어 선택) Desktop 을 다시 시작합니다.
+
+### 방법 B — `hermes plugins install`
 
 ```bash
 hermes plugins install hermes-lang-ko                # 플러그인 카탈로그 등재 후
@@ -28,7 +32,7 @@ Desktop(그리고 실행 중인 게이트웨이·TUI)을 다시 시작하면 Des
 
 플러그인은 프로필마다 따로 설치됩니다. Desktop 백엔드가 쓰는 프로필에 설치하거나 `-p <프로필>` 을 붙이세요.
 
-### 방법 B — 플러그인 없이 개인 덮어쓰기
+### 방법 C — 플러그인 없이 개인 덮어쓰기
 
 `locales/ko.desktop.yaml` 을 `<HERMES_HOME>/locales/ko.desktop.yaml` 로 복사합니다. 둘 다 있으면 플러그인 쪽이 우선합니다.
 
@@ -53,7 +57,7 @@ hermes config get display.language   # ko
 
 ## 이 플러그인이 하는 일과 하지 않는 일
 
-- Python·JavaScript·네트워크 접속·셸 명령·백그라운드 프로세스·자격 증명 저장 모두 없습니다.
+- 실행되는 코드가 없습니다. `__init__.py` 에는 바로 반환하는 `register()` 하나만 있습니다. Desktop 의 「Git에서 설치」 검사가 `plugin.yaml` 옆에 이 파일을 요구해서 둔 것이고, 번역 문구(`locales/`)는 `register()` 가 불리기 전에 백엔드가 매니페스트를 보고 등록합니다. JavaScript·네트워크 접속·셸 명령·백그라운드 프로세스·자격 증명 저장도 없습니다.
 - 팩을 등록해도 `display.language` 는 바뀌지 않습니다. `hermes config set display.language ko` 로 직접 켭니다.
 - 설치 스캐너가 `sudo` 비밀번호를 언급하거나 공식 한 줄 설치 명령을 보여 주는 화면 문구 몇 개를 `caution` 으로 표시합니다. 실행되는 내용이 아니라 영어 원문과 같은 뜻의 화면 문구입니다.
 

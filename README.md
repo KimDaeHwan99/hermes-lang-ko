@@ -8,7 +8,7 @@
 
 Hermes already ships Korean for the CLI and messaging gateway (`locales/ko.yaml`) and for the TUI (`ko.tui.yaml`). The Desktop app is the one surface without Korean. This pack fills only that gap with `locales/ko.desktop.yaml`, and leaves the bundled Korean catalogs in charge of everything else.
 
-It is a manifest-only language pack: two YAML files and a `plugin.yaml`. The Hermes backend serves the strings to Desktop over `i18n.catalog`, where they are merged over the bundled English catalog. Any string the pack does not cover stays in English.
+It is a text-only language pack: two YAML files, a `plugin.yaml`, and an `__init__.py` whose `register()` does nothing (see below). The Hermes backend serves the strings to Desktop over `i18n.catalog`, where they are merged over the bundled English catalog. Any string the pack does not cover stays in English.
 
 ## Requirements
 
@@ -16,7 +16,11 @@ It is a manifest-only language pack: two YAML files and a `plugin.yaml`. The Her
 
 ## Install
 
-### Option A — `hermes plugins install`
+### Option A — Hermes Desktop
+
+Capabilities → Plugins → **Install from Git**, enter `https://github.com/dandacompany/hermes-lang-ko`, then **Review repository** and **Install**. Then set the language (Option B's last line, or the Desktop language switcher) and restart Desktop.
+
+### Option B — `hermes plugins install`
 
 ```bash
 hermes plugins install hermes-lang-ko          # once listed in the plugin catalog
@@ -28,7 +32,7 @@ Restart Desktop (and any running gateway or TUI) so it reloads the language list
 
 Plugins are per profile. Install the pack in the profile your Desktop backend runs, or pass `-p <profile>`.
 
-### Option B — personal overlay, no plugin
+### Option C — personal overlay, no plugin
 
 Copy `locales/ko.desktop.yaml` to `<HERMES_HOME>/locales/ko.desktop.yaml`. A plugin pack takes precedence over the overlay when both exist.
 
@@ -53,7 +57,7 @@ The remaining 104 keys split in two. 74 need no translation: brand names, identi
 
 ## What this plugin does and does not do
 
-- No Python, no JavaScript, no network access, no shell commands, no background processes, no stored credentials.
+- No executable code: `__init__.py` holds only a `register()` that returns immediately. It exists because Desktop's *Install from Git* check requires it beside `plugin.yaml`; the backend registers `locales/` from the manifest before `register()` runs. No JavaScript, no network access, no shell commands, no background processes, no stored credentials.
 - Registering the pack never changes `display.language`. You opt in with `hermes config set display.language ko`.
 - The install scanner reports `caution` findings for a few UI strings that mention `sudo` passwords or show the official one-line installer command. They are display text copied from the English catalog's meaning, not executable content.
 

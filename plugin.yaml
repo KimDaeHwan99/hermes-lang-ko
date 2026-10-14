@@ -1,5 +1,5 @@
 name: hermes-lang-ko
-version: 0.2.1
+version: 0.2.2
 description: Korean (한국어) language pack for Hermes Desktop — text-only plugin, no code, no network
 requires_hermes: ">=0.21.6"
 provides_locales:

@@ -49,9 +49,9 @@ hermes config get display.language   # ko
 | --- | --- | --- |
 | CLI, gateway replies, approval prompts | bundled `locales/ko.yaml` | maintained in hermes-agent |
 | TUI | bundled `locales/ko.tui.yaml` | maintained in hermes-agent |
-| Desktop | this pack, `locales/ko.desktop.yaml` | 4,934 of 5,038 keys (98%) |
+| Desktop | this pack, `locales/ko.desktop.yaml` | 4,962 of 5,065 keys on v0.21.7, 4,982 of 5,085 on current main (98%) |
 
-The remaining 104 keys split in two. 74 need no translation: brand names, identifiers, example URLs and pure placeholders such as `{0} · {1}`. The other 30 are function entries the positional format cannot express faithfully: wording that switches on a state (on/off, show/hide), optional parts that would leave a dangling fragment when absent, and list values. Those keep their English wording until Korean ships inside Desktop. Values identical to English are deliberately left out, so untranslated strings fall back to the English catalog instead of being pinned to a stale copy. Desktop entries whose English value is a function are written as positional strings (`"{0}분 전"`), as the pack format requires.
+The remaining 103 keys split in two. 73 need no translation: brand names, identifiers, example URLs and pure placeholders such as `{0} · {1}`. The other 30 are function entries the positional format cannot express faithfully: wording that switches on a state (on/off, show/hide), optional parts that would leave a dangling fragment when absent, and list values. Those keep their English wording until Korean ships inside Desktop. Values identical to English are deliberately left out, so untranslated strings fall back to the English catalog instead of being pinned to a stale copy. Desktop entries whose English value is a function are written as positional strings (`"{0}분 전"`), as the pack format requires.
 
 `locales/ko.yaml` is intentionally empty: the bundled core catalog already covers it, and the validator requires the file to exist.
 

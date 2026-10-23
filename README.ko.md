@@ -23,7 +23,7 @@ Capabilities → Plugins → **Git에서 설치**(Install from Git)에 `https://
 ### 방법 B — `hermes plugins install`
 
 ```bash
-hermes plugins install hermes-lang-ko                # 플러그인 카탈로그 등재 후
+hermes plugins install hermes-lang-ko                # 플러그인 카탈로그에서 설치
 hermes plugins install dandacompany/hermes-lang-ko   # 이 저장소에서 바로
 hermes config set display.language ko
 ```
@@ -49,9 +49,13 @@ hermes config get display.language   # ko
 | --- | --- | --- |
 | CLI·게이트웨이 응답·승인 프롬프트 | 내장 `locales/ko.yaml` | hermes-agent 에서 관리 |
 | TUI | 내장 `locales/ko.tui.yaml` | hermes-agent 에서 관리 |
-| Desktop | 이 팩 `locales/ko.desktop.yaml` | v0.21.7 기준 5,065개 중 4,962개, 현재 main 기준 5,085개 중 4,982개(98%) |
+| Desktop | 이 팩 `locales/ko.desktop.yaml` | v0.22.5 및 main `cb757fac59` 기준 5,384개 중 5,282개(98.1%) |
 
-남은 103개는 두 종류입니다. 73개는 번역할 필요가 없는 브랜드명·식별자·예시 URL·`{0} · {1}` 같은 자리표시자입니다. 나머지 30개는 위치 자리표시자 형식으로 정확히 옮길 수 없는 함수형 문구입니다. 상태에 따라 문장이 바뀌는 것(켜짐/꺼짐, 표시/숨기기), 값이 없을 때 문장 조각이 덜렁 남는 선택 항목, 목록 값이 여기에 속합니다. Desktop에 한국어가 내장될 때까지 영어로 남습니다. 영어와 같은 값은 일부러 넣지 않았습니다. 번역되지 않은 문구가 낡은 사본에 묶이지 않고 영어 카탈로그로 자연스럽게 넘어가게 하려는 것입니다. 영어 값이 함수인 Desktop 문구는 언어팩 규약대로 위치 자리표시자 문자열(`"{0}분 전"`)로 적습니다.
+2026-10-23에 [v0.22.5](https://github.com/NousResearch/hermes-agent/releases/tag/v0.22.5)와 [main `cb757fac59`](https://github.com/NousResearch/hermes-agent/commit/cb757fac59c92b49e9b8f2910e5cd7ab75efffdd)를 대조했습니다. 0.2.4에서는 카탈로그, 하위 에이전트 라우팅, 사용량·결제, 채팅 명령과 복구 안내 등 349개를 추가하고, 영어 원문이 바뀐 기존 문구 4개를 수정했습니다. 파일에는 구버전 호환용 91개를 포함해 총 5,373개 항목이 있습니다. 최신 Hermes는 구버전 전용 키를 무시합니다.
+
+남은 102개는 두 종류입니다. 69개는 번역할 필요가 없는 브랜드명·식별자·예시 URL·`{0} · {1}` 같은 자리표시자입니다. 나머지 33개는 조건부 문구, 선택 항목, 배열·객체 값이라 텍스트 언어팩으로 정확히 옮길 수 없습니다. 켜짐/꺼짐 표시, 있을 때만 표시하는 초기화 시각, 번갈아 나오는 입력창 안내 등이 여기에 속합니다. Desktop이 더 풍부한 덮어쓰기 형식을 지원하거나 한국어를 내장하기 전까지 영어로 남습니다. 영어와 같은 값은 일부러 넣지 않아 최신 영어 카탈로그를 그대로 따릅니다. 영어 값이 함수인 Desktop 문구는 언어팩 규약대로 위치 자리표시자 문자열(`"{0}분 전"`)로 적습니다.
+
+번역률은 Desktop 기본 카탈로그의 키 기준이며, 화면의 모든 문구를 뜻하지는 않습니다. 예를 들어 `Add context`는 업스트림 `apps/desktop/src/app/chat/use-chat-bar-state.ts`에 직접 적혀 있고, 플러그인별 화면은 별도 카탈로그를 사용합니다. 이 언어팩으로는 해당 문구를 덮어쓸 수 없습니다.
 
 `locales/ko.yaml` 은 일부러 비워 두었습니다. 내장 카탈로그가 이미 채우고 있고, 검증기가 파일의 존재만 요구합니다.
 
@@ -71,7 +75,7 @@ node tools/sync-keys.mjs --keys <hermes-agent>/locales/_keys.desktop.json --fix 
 hermes plugins validate .
 ```
 
-`missing.txt` 에 아직 번역이 없는 키가 나옵니다. 직접 번역해 넣습니다.
+`missing.txt`에는 위에서 설명한 의도적인 폴백을 포함해 팩에 없는 모든 키가 나옵니다. 영어 원문을 확인하고 표현 가능한 항목을 직접 번역합니다. `--fix`는 구버전용 키도 삭제하므로, 구버전 호환을 유지하려면 생략하세요. 이전 점검 시점과 영어 값도 비교해야 합니다. 키가 같아도 문구의 의미는 바뀔 수 있습니다.
 
 ## 번역과 출처
 

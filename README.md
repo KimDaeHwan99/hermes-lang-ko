@@ -23,7 +23,7 @@ Capabilities → Plugins → **Install from Git**, enter `https://github.com/dan
 ### Option B — `hermes plugins install`
 
 ```bash
-hermes plugins install hermes-lang-ko          # once listed in the plugin catalog
+hermes plugins install hermes-lang-ko          # from the plugin catalog
 hermes plugins install dandacompany/hermes-lang-ko   # directly from this repository
 hermes config set display.language ko
 ```
@@ -49,9 +49,13 @@ hermes config get display.language   # ko
 | --- | --- | --- |
 | CLI, gateway replies, approval prompts | bundled `locales/ko.yaml` | maintained in hermes-agent |
 | TUI | bundled `locales/ko.tui.yaml` | maintained in hermes-agent |
-| Desktop | this pack, `locales/ko.desktop.yaml` | 4,962 of 5,065 keys on v0.21.7, 4,982 of 5,085 on current main (98%) |
+| Desktop | this pack, `locales/ko.desktop.yaml` | 5,282 of 5,384 keys on v0.22.5 and main `cb757fac59` (98.1%) |
 
-The remaining 103 keys split in two. 73 need no translation: brand names, identifiers, example URLs and pure placeholders such as `{0} · {1}`. The other 30 are function entries the positional format cannot express faithfully: wording that switches on a state (on/off, show/hide), optional parts that would leave a dangling fragment when absent, and list values. Those keep their English wording until Korean ships inside Desktop. Values identical to English are deliberately left out, so untranslated strings fall back to the English catalog instead of being pinned to a stale copy. Desktop entries whose English value is a function are written as positional strings (`"{0}분 전"`), as the pack format requires.
+Checked against [v0.22.5](https://github.com/NousResearch/hermes-agent/releases/tag/v0.22.5) and [main `cb757fac59`](https://github.com/NousResearch/hermes-agent/commit/cb757fac59c92b49e9b8f2910e5cd7ab75efffdd) on 2026-10-23. Version 0.2.4 adds 349 translations for the catalog, subagent routing, usage and billing, chat commands and recovery messages, and updates four existing strings whose English source changed. The file contains 5,373 entries, including 91 legacy keys retained for older Hermes versions; newer versions ignore those keys.
+
+The remaining 102 keys split in two. 69 need no translation: brand names, identifiers, example URLs and pure placeholders such as `{0} · {1}`. The other 33 require conditional wording, optional fragments, or array/object values that the text-only pack cannot express faithfully. Examples include on/off labels, optional reset times and rotating composer placeholders. Those keep their English wording until Desktop supports a richer override or ships Korean itself. Values identical to English are deliberately left out, so they follow the current English catalog. Desktop entries whose English value is a function are written as positional strings (`"{0}분 전"`), as the pack format requires.
+
+Coverage counts the main Desktop catalog, not every visible string. For example, `Add context` is still hardcoded in upstream `apps/desktop/src/app/chat/use-chat-bar-state.ts`, and plugin-specific interfaces use their own catalogs; this language pack cannot override those.
 
 `locales/ko.yaml` is intentionally empty: the bundled core catalog already covers it, and the validator requires the file to exist.
 
@@ -71,7 +75,7 @@ node tools/sync-keys.mjs --keys <hermes-agent>/locales/_keys.desktop.json --fix 
 hermes plugins validate .
 ```
 
-`missing.txt` lists keys still waiting for a translation; add them by hand.
+`missing.txt` lists all keys absent from the pack, including the intentional fallbacks above. Review the English values and translate compatible entries by hand. `--fix` removes older-version keys too; omit it when keeping backward compatibility. Also compare English values with the previous audited revision: a key can stay the same while its meaning changes.
 
 ## Translation and attribution
 

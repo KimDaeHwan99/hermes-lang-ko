@@ -161,7 +161,7 @@ const translations = {
     },
     "billing": {
       "charge": {
-        "added": (amount) => amount ? `$${amount}\uC744(\uB97C) \uCD94\uAC00\uD588\uC2B5\uB2C8\uB2E4.` : "\uD06C\uB808\uB527\uC744 \uCD94\uAC00\uD588\uC2B5\uB2C8\uB2E4."
+        "added": (amount) => amount != null ? `$${amount} \uD06C\uB808\uB527\uC744 \uCD94\uAC00\uD588\uC2B5\uB2C8\uB2E4.` : "\uD06C\uB808\uB527\uC744 \uCD94\uAC00\uD588\uC2B5\uB2C8\uB2E4."
       },
       "plan": {
         "effectScheduled": (name, at, delta) => `${name} \uC694\uAE08\uC81C\uB85C \uBCC0\uACBD\uB418\uBA70 ${at}\uC5D0 \uC801\uC6A9\uB429\uB2C8\uB2E4. \uC9C0\uAE08\uC740 \uACB0\uC81C\uB418\uC9C0 \uC54A\uC73C\uBA70 \uADF8\uB54C\uAE4C\uC9C0 \uD604\uC7AC \uC694\uAE08\uC81C\uAC00 \uC720\uC9C0\uB429\uB2C8\uB2E4.${delta ? ` \uC6D4\uAC04 \uD06C\uB808\uB527 \uBCC0\uACBD: ${delta}.` : ""}`
@@ -219,7 +219,7 @@ const translations = {
   },
   "assistant": {
     "thread": {
-      "errorSwitchToModel": (model, note) => `${model}(\uC73C)\uB85C \uC804\uD658${note ? ` (${note})` : ""}`
+      "errorSwitchToModel": (model, note) => `${model} \uBAA8\uB378\uB85C \uC804\uD658${note ? ` (${note})` : ""}`
     }
   },
   "desktop": {

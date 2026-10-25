@@ -7,7 +7,10 @@ function register(){let t;plugin.register({i18n:{registerAppLocale(id,opts){asse
 const t=register();
 test('older SDK remains usable without a desktop locale API',()=>{assert.doesNotThrow(()=>plugin.register({}));assert.doesNotThrow(()=>plugin.register({i18n:{}}));});
 test('stock/custom introduction arrays and names remain literal',()=>{
- assert.equal(Object.keys(t.intro.stock).length,15);
+ assert.deepEqual(Object.keys(t.intro.stock).sort(),[
+  'helpful','concise','technical','creative','teacher','kawaii','catgirl',
+  'pirate','shakespeare','surfer','noir','uwu','philosopher','hype','none'
+ ].sort());
  for(const values of Object.values(t.intro.stock)){assert.equal(values.length,5);for(const s of values)assert.match(s,/[가-힣]/);}
  assert.equal(t.intro.custom('My $& Voice').length,5);assert(t.intro.custom('My $& Voice')[4].includes('My $& Voice'));
  assert(t.intro.custom('')[4].includes('사용자 지정'));
@@ -23,10 +26,24 @@ test('conditions distinguish enabled, disabled, zero, null and absent values',()
  assert.equal(t.messaging.waitingSince(0),'방금');assert.equal(t.messaging.waitingSince(3),'3분 전');
  assert.equal(t.settings.gateway.connectedTo('host',null),'host에 연결됨');assert.equal(t.settings.gateway.connectedTo('host','1.0'),'host에 연결됨 · Hermes 1.0');
  assert.equal(t.shell.modelMenu.usageLeft(20,null),'20% 남음');assert.equal(t.shell.modelMenu.usageLeft(20,'1h'),'20% 남음 · 초기화: 1h');
- assert.equal(t.settings.billing.charge.added(null),'크레딧을 추가했습니다.');assert.equal(t.settings.billing.charge.added('5'),'$5을(를) 추가했습니다.');
 });
 test('companion leaves every existing YAML translation authoritative',()=>{
  const keys=new Set(readFileSync(new URL('../locales/ko.desktop.yaml',import.meta.url),'utf8').split('\n').filter(l=>l.startsWith('"')).map(l=>JSON.parse(l.slice(0,l.indexOf('\": ')+1))));
  function visit(v,p=''){if(v&&typeof v==='object'&&!Array.isArray(v))for(const[k,x]of Object.entries(v))visit(x,p?p+'.'+k:k);else assert(!keys.has(p),p);}
  visit(t);
+});
+test('credit confirmation preserves zero, amounts and absent values',()=>{
+ const added=t.settings.billing.charge.added;
+ for(const amount of [0,'0',5,'5','5.00',2.5]){
+  assert.equal(added(amount),`$${amount} 크레딧을 추가했습니다.`);
+ }
+ for(const amount of [null,undefined])assert.equal(added(amount),'크레딧을 추가했습니다.');
+ assert.equal(added(),'크레딧을 추가했습니다.');
+});
+test('model switching uses natural wording and preserves optional notes literally',()=>{
+ const switchTo=t.assistant.thread.errorSwitchToModel;
+ for(const model of ['GPT-5','Qwen','모델명 $&']){
+  for(const note of [undefined,null,''])assert.equal(switchTo(model,note),`${model} 모델로 전환`);
+  assert.equal(switchTo(model,'권장 $&'),`${model} 모델로 전환 (권장 $&)`);
+ }
 });
